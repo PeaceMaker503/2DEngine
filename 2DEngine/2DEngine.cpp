@@ -6,15 +6,13 @@
 int main(int argc, char** argv)
 {
 	FreeConsole();
-	HINSTANCE hInstance = NULL;
 	UserWindow uw(L"UserWindow", L"WindowGame", 0, 0, 800, 600);
-	UserWindow uw2(L"UserWindow2", L"WindowGame2", 0, 0, 400, 200);
+	HBITMAP bmpRed = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1));
+	uw.GetRenderer().Draw(bmpRed);
 	uw.Create();
 	uw.Register();
 	uw.Show();
-	uw2.Create();
-	uw2.Register();
-	uw2.Show();
 	UserWindow::Run();
 	return 0;
 }
+

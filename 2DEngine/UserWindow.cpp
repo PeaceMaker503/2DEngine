@@ -1,4 +1,3 @@
-#include "UserWindow.h"
 #include "stdafx.h"
 
 std::map<HWND, UserWindow*> windows;
@@ -11,6 +10,7 @@ UserWindow::UserWindow(LPCWSTR title, LPCWSTR uniqueClassName, int x, int y, int
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	this->renderer.InitBackbuffer(width, height);
 }
 
 void UserWindow::Run()
@@ -56,7 +56,7 @@ HWND UserWindow::GetHandler()
 
 HWND UserWindow::InitInstance()
 {
-	HWND hWnd = CreateWindowEx(WS_EX_TOPMOST, uniqueClassName, title, WS_OVERLAPPEDWINDOW,
+	HWND hWnd = CreateWindowEx(WS_EX_RIGHT, uniqueClassName, title, WS_OVERLAPPEDWINDOW,
 							   x, y, width, height,
 							   GetDesktopWindow(), NULL, NULL, NULL);
 
@@ -95,9 +95,17 @@ LRESULT CALLBACK UserWindow::RealWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
+			BITMAP bm;
+			HBITMAP newBm = this->renderer.GetBackbuffer();
 			HDC hdc = BeginPaint(hWnd, &ps);
-			// TODO: ajoutez le code de dessin qui utilise hdc ici...
+			HDC hdcMem = CreateCompatibleDC(hdc);
+			HBITMAP hbmOld = (HBITMAP)SelectObject(hdcMem, newBm);
+			GetObject(newBm, sizeof(bm), &bm);
+			BitBlt(hdc, 0, 0, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, SRCCOPY);
+			SelectObject(hdcMem, hbmOld);
+			DeleteDC(hdcMem);
 			EndPaint(hWnd, &ps);
+			this->renderer.InitBackbuffer(this->width, this->height);
 		}
 		break;
 		case WM_DESTROY:
@@ -119,6 +127,11 @@ LRESULT UserWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	else
 		return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+GraphicRenderer UserWindow::GetRenderer()
+{
+	return this->renderer;
 }
 
 LPCWSTR UserWindow::GetTitle()

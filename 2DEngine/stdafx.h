@@ -11,7 +11,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclure les en-têtes Windows rarement utilisés
 // Fichiers d'en-tête Windows :
 #include <windows.h>
-
+#include <iostream>
 // Fichiers d'en-tête C RunTime
 #include <stdlib.h>
 #include <malloc.h>
@@ -19,6 +19,7 @@
 #include <tchar.h>
 #include <map>
 #include "UserWindow.h"
-
+#include "resource.h"
+#include "GraphicRenderer.h"
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme
