@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-std::map<HWND, UserWindow*> windows;
+UserWindow* me = NULL;
 
 UserWindow::UserWindow(LPCWSTR title, LPCWSTR uniqueClassName, int x, int y, int width, int height)
 {
@@ -17,10 +17,15 @@ void UserWindow::Run()
 {
 	HACCEL hAccelTable = LoadAccelerators(NULL, MAKEINTRESOURCE(IDC_2DENGINE));
 	MSG msg;
-
-	while (windows.size() > 0)
+	HBITMAP bmpRed = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP1));
+	HBITMAP bmpGreen = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP3));
+	
+	this->run = true;
+	DWORD previous = GetTickCount();
+	int x = 0;
+	while (this->run)
 	{
-		while (GetMessage(&msg, nullptr, 0, 0))
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
 		{
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 			{
@@ -28,7 +33,26 @@ void UserWindow::Run()
 				DispatchMessage(&msg);
 			}
 		}
+		this->Draw(bmpGreen, BitmapRectangle(x++, x++, 800, 600));
+		while (GetTickCount() - previous < 15);
+		this->DrawWindow();
+		previous = GetTickCount();
 	}
+}
+
+void UserWindow::DrawWindow()
+{
+	BITMAP bm;
+	HBITMAP newBm = this->renderer.GetBackbuffer();
+	HDC hdc = GetDC(hWnd);
+	HDC hdcMem = CreateCompatibleDC(hdc);
+	HBITMAP hbmOld = (HBITMAP)SelectObject(hdcMem, newBm);
+	GetObject(newBm, sizeof(bm), &bm);
+	BitBlt(hdc, 0, 0, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, SRCCOPY);
+	SelectObject(hdcMem, hbmOld);
+	DeleteDC(hdcMem);
+	ReleaseDC(hWnd, hdc);
+	this->renderer.InitBackbuffer(this->width, this->height);
 }
 
 BOOL UserWindow::Create()
@@ -40,7 +64,7 @@ BOOL UserWindow::Create()
 
 void UserWindow::Register()
 {
-	windows.insert(std::pair<HWND, UserWindow*>(this->hWnd, this));
+	me = this;
 }
 
 void UserWindow::Show()
@@ -95,21 +119,13 @@ LRESULT CALLBACK UserWindow::RealWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			BITMAP bm;
-			HBITMAP newBm = this->renderer.GetBackbuffer();
-			HDC hdc = BeginPaint(hWnd, &ps);
-			HDC hdcMem = CreateCompatibleDC(hdc);
-			HBITMAP hbmOld = (HBITMAP)SelectObject(hdcMem, newBm);
-			GetObject(newBm, sizeof(bm), &bm);
-			BitBlt(hdc, 0, 0, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, SRCCOPY);
-			SelectObject(hdcMem, hbmOld);
-			DeleteDC(hdcMem);
+			HDC hDC = BeginPaint(hWnd, &ps);
+			// other draw code here.
 			EndPaint(hWnd, &ps);
-			this->renderer.InitBackbuffer(this->width, this->height);
 		}
 		break;
 		case WM_DESTROY:
-			windows.erase(hWnd);
+			this->run = false;
 			PostQuitMessage(0);
 			break;
 		default:
@@ -120,11 +136,8 @@ LRESULT CALLBACK UserWindow::RealWndProc(HWND hWnd, UINT message, WPARAM wParam,
 
 LRESULT UserWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (windows.count(hwnd))
-	{
-		UserWindow* me = windows.at(hwnd);
+	if (me != NULL)
 		return me->RealWndProc(hwnd, msg, wParam, lParam);
-	}
 	else
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }

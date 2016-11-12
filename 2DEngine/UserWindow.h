@@ -18,8 +18,9 @@ class UserWindow
 		BOOL UserWindow::Create();
 		void UserWindow::Show();
 		void UserWindow::Register();
-		static void UserWindow::Run();
+		void UserWindow::Run();
 		void UserWindow::Draw(HBITMAP bmp, BitmapRectangle rect);
+		void UserWindow::DrawWindow();
 	private:
 		GraphicRenderer renderer;
 		LPCWSTR title;
@@ -29,6 +30,7 @@ class UserWindow
 		int width;
 		int height;
 		HWND hWnd;
+		BOOL run;
 		HWND InitInstance();
 		ATOM RegisterUserWindow();
 		LRESULT CALLBACK RealWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
