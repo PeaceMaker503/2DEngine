@@ -129,9 +129,10 @@ LRESULT UserWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-GraphicRenderer UserWindow::GetRenderer()
+
+void UserWindow::Draw(HBITMAP bmp, BitmapRectangle rect)
 {
-	return this->renderer;
+	this->renderer.Draw(bmp, rect);
 }
 
 LPCWSTR UserWindow::GetTitle()

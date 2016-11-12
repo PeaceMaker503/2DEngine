@@ -15,7 +15,7 @@ HBITMAP GraphicRenderer::GetBackbuffer()
 	return this->backbuffer;
 }
 
-void GraphicRenderer::Draw(HBITMAP bmp)
+void GraphicRenderer::Draw(HBITMAP bmp, BitmapRectangle rect)
 {
 	HBITMAP bhsrc = bmp;
 	HBITMAP bhdst = this->backbuffer;
@@ -33,7 +33,7 @@ void GraphicRenderer::Draw(HBITMAP bmp)
 	HBITMAP dstorig = (HBITMAP)SelectObject(dstdc, bhdst);
 
 	// Blit
-	BitBlt(dstdc, 0, 0, bm.bmWidth, bm.bmHeight, srcdc, 0, 0, SRCCOPY);
+	BOOL r = BitBlt(dstdc, rect.GetX(), rect.GetY(), rect.GetWidth(), rect.GetHeight(), srcdc, 0, 0, SRCCOPY);
 
 	// cleanup - put the original bitmaps back in the DC
 	SelectObject(srcdc, srcorig);

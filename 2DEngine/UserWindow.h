@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "GraphicRenderer.h"
+#include "BitmapRectangle.h"
 
 class UserWindow
 {
@@ -13,13 +14,12 @@ class UserWindow
 		int UserWindow::GetWidth();
 		int UserWindow::GetHeight();
 		HWND UserWindow::GetHandler();		
-		GraphicRenderer UserWindow::GetRenderer();
 		UserWindow::UserWindow(LPCWSTR title, LPCWSTR uniqueClassName, int x, int y, int width, int height);
 		BOOL UserWindow::Create();
 		void UserWindow::Show();
 		void UserWindow::Register();
 		static void UserWindow::Run();
-		
+		void UserWindow::Draw(HBITMAP bmp, BitmapRectangle rect);
 	private:
 		GraphicRenderer renderer;
 		LPCWSTR title;

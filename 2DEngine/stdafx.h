@@ -21,5 +21,5 @@
 #include "UserWindow.h"
 #include "resource.h"
 #include "GraphicRenderer.h"
-
+#include "BitmapRectangle.h"
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme

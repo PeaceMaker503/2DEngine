@@ -13,39 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Utils">
+      <UniqueIdentifier>{83dea00a-14f3-4443-acf5-4c2ced3ba763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Draw">
+      <UniqueIdentifier>{74983a40-c88c-4cf5-815f-9ad1aef362dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Config">
+      <UniqueIdentifier>{3da8d419-024b-4412-b70d-aeba3d926ace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Draw">
+      <UniqueIdentifier>{3fea787e-e6ee-41f0-b449-4600cd647880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Config">
+      <UniqueIdentifier>{3c14d78c-9b25-4d2c-a4bf-848e06a355cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Utils">
+      <UniqueIdentifier>{8f50b3a3-f0cc-4e76-8132-2a084d7b48f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="GraphicRenderer.h">
+      <Filter>Fichiers d%27en-tête\Draw</Filter>
     </ClInclude>
     <ClInclude Include="UserWindow.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Draw</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Config</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicRenderer.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>Fichiers d%27en-tête\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Fichiers d%27en-tête\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapRectangle.h">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="2DEngine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="UserWindow.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicRenderer.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="UserWindow.cpp">
+      <Filter>Fichiers sources\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Fichiers sources\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapRectangle.cpp">
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +81,7 @@
     <Image Include="..\Debug\red.bmp">
       <Filter>Fichiers de ressources</Filter>
     </Image>
-    <Image Include="..\Debug\black.bmp">
+    <Image Include="..\Debug\green.bmp">
       <Filter>Fichiers de ressources</Filter>
     </Image>
   </ItemGroup>
